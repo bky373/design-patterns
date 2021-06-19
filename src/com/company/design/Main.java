@@ -1,12 +1,15 @@
 package com.company.design;
 
 import com.company.design.adapter.*;
+import com.company.design.aop.AopBrowser;
 import com.company.design.proxy.Browser;
 import com.company.design.proxy.BrowserProxy;
 import com.company.design.proxy.IBrowser;
 import com.company.design.singleton.AClazz;
 import com.company.design.singleton.BClazz;
 import com.company.design.singleton.SocketClient;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Main {
 
@@ -53,6 +56,28 @@ public class Main {
         browser.show();
         browser.show();
         browser.show();
+
+
+        // AOP 관련
+        AtomicLong start = new AtomicLong();
+        AtomicLong end = new AtomicLong();
+
+        IBrowser aopBrower = new AopBrowser("www.naver.com",
+                () -> {
+                    System.out.println("before");
+                    start.set(System.currentTimeMillis());
+                },
+                () -> {
+                    long now = System.currentTimeMillis();
+                    end.set(now - start.get());
+                }
+        );
+
+        aopBrower.show();
+        System.out.println("loading time : " + end.get());
+
+        aopBrower.show();
+        System.out.println("loading time : " + end.get());
 
     }
 
