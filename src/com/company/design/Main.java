@@ -1,6 +1,9 @@
 package com.company.design;
 
 import com.company.design.adapter.*;
+import com.company.design.proxy.Browser;
+import com.company.design.proxy.BrowserProxy;
+import com.company.design.proxy.IBrowser;
 import com.company.design.singleton.AClazz;
 import com.company.design.singleton.BClazz;
 import com.company.design.singleton.SocketClient;
@@ -31,6 +34,26 @@ public class Main {
         AirConditioner airConditioner = new AirConditioner();
         SocketAdapter airAdapter = new SocketAdapter(airConditioner);
         connect(airAdapter);
+
+
+        // 프록시 패턴
+        /* Proxy를 사용하지 않은 경우 : 계속 새로운 Html 객체 생성 */
+        /* Browser browser = new Browser("www.naver.com");
+           browser.show();
+           browser.show();
+           browser.show();
+           browser.show();
+           browser.show();
+         */
+
+        /* Proxy를 사용한 경우 : 캐시된 html 사용 */
+        IBrowser browser = new BrowserProxy("www.naver.com");
+        browser.show();
+        browser.show();
+        browser.show();
+        browser.show();
+        browser.show();
+
     }
 
     // 콘센트
