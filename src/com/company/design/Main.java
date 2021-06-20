@@ -3,11 +3,14 @@ package com.company.design;
 import com.company.design.adapter.*;
 import com.company.design.aop.AopBrowser;
 import com.company.design.decorator.*;
+import com.company.design.observer.Button;
+import com.company.design.observer.IButtonListener;
 import com.company.design.proxy.BrowserProxy;
 import com.company.design.proxy.IBrowser;
 import com.company.design.singleton.AClazz;
 import com.company.design.singleton.BClazz;
 import com.company.design.singleton.SocketClient;
+import jdk.swing.interop.SwingInterOpUtils;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -99,5 +102,22 @@ public class Main {
         // a5
         ICar audi5 = new A5(audi, "A5");
         audi5.showPrice();
+
+
+        // 옵저버 패턴
+        Button button = new Button("버튼");
+
+        button.addListener(new IButtonListener() {
+            @Override
+            public void clickEvent(String event) {
+                System.out.println(event);
+            }
+        });
+
+        button.click("메시지 전달 : click1");
+        button.click("메시지 전달 : click2");
+        button.click("메시지 전달 : click3");
+        button.click("메시지 전달 : click4");
+
     }
 }
