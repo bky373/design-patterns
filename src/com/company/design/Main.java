@@ -3,6 +3,10 @@ package com.company.design;
 import com.company.design.adapter.*;
 import com.company.design.aop.AopBrowser;
 import com.company.design.decorator.*;
+import com.company.design.facade.Ftp;
+import com.company.design.facade.Reader;
+import com.company.design.facade.SftpClient;
+import com.company.design.facade.Writer;
 import com.company.design.observer.Button;
 import com.company.design.observer.IButtonListener;
 import com.company.design.proxy.BrowserProxy;
@@ -118,6 +122,36 @@ public class Main {
         button.click("메시지 전달 : click2");
         button.click("메시지 전달 : click3");
         button.click("메시지 전달 : click4");
+
+
+        // 파사드 패턴
+        /* 파사드 패턴 적용 전 */
+        Ftp ftpClient = new Ftp("www.foo.co.kr", 22, "/home/etc");
+        ftpClient.connect();
+        ftpClient.moveDirectory();
+
+        Writer writer = new Writer("text.tmp");
+        writer.fileConnect();
+        writer.write();
+
+        Reader reader = new Reader("text.tmp");
+        reader.fileConnect();
+        reader.fileRead();
+
+        reader.fileDisconnect();
+        writer.fileDisConnect();
+        ftpClient.disConnect();
+
+
+        /* 파사드 패턴 적용 후 */
+        SftpClient sftpClient = new SftpClient("www.foo.co.kr", 22, "/home/etc", "text.tmp");
+        sftpClient.connect();
+
+        sftpClient.write();
+
+        sftpClient.read();
+
+        sftpClient.disConnect();
 
     }
 }
